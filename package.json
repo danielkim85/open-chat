@@ -1,0 +1,19 @@
+{
+  "name": "sooda",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danielkim85/sooda.git"
+  },
+  "author": "danielkim@soulkast.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danielkim85/sooda/issues"
+  },
+  "homepage": "https://github.com/danielkim85/sooda#readme"
+}
