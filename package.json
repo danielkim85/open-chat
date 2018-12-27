@@ -10,6 +10,13 @@
     "type": "git",
     "url": "git+https://github.com/danielkim85/sooda.git"
   },
+  "dependencies": {
+    "socket.io": "^2.0.4"
+  },
+  "devDependencies": {
+    "express": "~4.15.2",
+    "socket.io-client": "^2.2.0"
+  },
   "author": "danielkim@soulkast.com",
   "license": "ISC",
   "bugs": {
