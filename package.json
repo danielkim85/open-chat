@@ -11,6 +11,8 @@
     "url": "git+https://github.com/danielkim85/sooda.git"
   },
   "dependencies": {
+    "q": "^1.5.1",
+    "redis": "^2.8.0",
     "socket.io": "^2.0.4"
   },
   "devDependencies": {
