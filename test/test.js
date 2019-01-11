@@ -1,5 +1,5 @@
 const sooda = require('../lib/sooda');
-const soodaUser = require('../lib/user');
+const SoodaUser = require('../lib/user');
 
 //kick off express server
 const app = require('express')();
@@ -19,11 +19,11 @@ http.listen(3000, function(){
 
   //create a test user
   console.log('creating a test user john1');
-  const user1 = soodaUser.init(socket,appName,'john1');
+  const user1 = new SoodaUser(socket,appName,'john1');
 
   //create a test user
   console.log('creating a test user john2');
-  const user2 = soodaUser.init(socket,appName,'john2');
+  const user2 = new SoodaUser(socket,appName,'john2');
 
   //connect and begin testing
   socket.once('connected', function(){
@@ -33,9 +33,13 @@ http.listen(3000, function(){
     const roomName = 'test1';
 
     //fire the test!
+
+    //create a room
     user1.create(roomName).then(
       function(roomName){
         console.log('Created a room : ' + roomName);
+
+        //user 1 joins
         return user1.join(roomName);
       }, function(err){
         console.error('Error while creating a room : ' + err);
@@ -43,20 +47,47 @@ http.listen(3000, function(){
     ).then(
       function(roomSize){
         console.log('user1 joined a room. Current room size : ' + roomSize);
-        return user2.join(roomName);
+
+        //user 1 joins AGAIN
+        return user1.join(roomName);
       }, function(err){
         console.error('Error while user1 joining a room : ' + err);
       }
     ).then(
       function(roomSize){
+        console.log('user1 tried to rejoin a room. Current room size : ' + roomSize);
+
+        //failed ...
+
+      }, function(err){
+        console.error('Error while user1 joining a room again : ' + err);
+
+        //user 2 joins
+        return user2.join(roomName);
+      }
+    ).then(
+      function(roomSize){
         console.log('user2 joined a room. Current room size : ' + roomSize);
-        return user1.delete(roomName);
+
+        //user1 asking for users list
+        return user1.users(roomName);
       }, function(err){
         console.error('Error while user2 joining a room : ' + err);
       }
     ).then(
+      function(users){
+        console.log(users);
+
+        //user1 purges
+        return user1.delete(roomName);
+      }, function(err){
+        console.error('Error while user1 listing the users ' + err);
+        return user1.delete(roomName);
+      }
+    ).then(
       function(roomName){
         console.log('Deleted a room : ' + roomName);
+
         //exit here
         process.exit(0);
       }, function(err){
