@@ -32,6 +32,14 @@ http.listen(3000, function(){
 
     const roomName = 'test1';
 
+    //custom event -- message
+    user1.on('message', function(msg){
+      console.info('user 1 received message : ' + msg);
+    });
+    user2.on('message', function(msg){
+      console.info('user 2 received message : ' + msg);
+    });
+
     //fire the test!
 
     //create a room
@@ -79,9 +87,34 @@ http.listen(3000, function(){
         console.log(users);
 
         //user2 deletes a room, shouldn't be allowed.
-        return user2.delete(roomName);
+        return user1.message(roomName,'hello, room!');
       }, function(err){
         console.error('Error while user1 listing the users : ' + err);
+        return user1.message(roomName,'hello, room!');
+      }
+    ).then(
+      function(){
+        //user2 deletes a room, shouldn't be allowed.
+        return user2.message(roomName,'hello, room2!');
+      }, function(err){
+        console.error('Error while user1 sending message : ' + err);
+        return user2.message(roomName,'hello, room2!');
+      }
+    ).then(
+      function(){
+        //user2 deletes a room, shouldn't be allowed.
+        return user2.messages(roomName,'hello, room2!');
+      }, function(err){
+        console.error('Error while user2 sending message : ' + err);
+        return user2.messages(roomName,'hello, room2!');
+      }
+    ).then(
+      function(messages){
+        //user2 deletes a room, shouldn't be allowed.
+        console.info(messages);
+        return user2.delete(roomName);
+      }, function(err){
+        console.error('Error while user2 listing messages : ' + err);
         return user2.delete(roomName);
       }
     ).then(
