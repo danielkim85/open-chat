@@ -78,10 +78,19 @@ http.listen(3000, function(){
       function(users){
         console.log(users);
 
+        //user2 deletes a room, shouldn't be allowed.
+        return user2.delete(roomName);
+      }, function(err){
+        console.error('Error while user1 listing the users : ' + err);
+        return user2.delete(roomName);
+      }
+    ).then(
+      function(roomName){
+        console.error('User 2 deleted a room created by user 1. This should not happen');
         //user1 purges
         return user1.delete(roomName);
       }, function(err){
-        console.error('Error while user1 listing the users ' + err);
+        console.error('Error while user 2 deleting a room : ' + err);
         return user1.delete(roomName);
       }
     ).then(
