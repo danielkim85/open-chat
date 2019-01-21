@@ -41,19 +41,19 @@ http.listen(3000, function(){
     });
 
     //custom event -- joined
-    user1.on('joined', function(username){
-      console.info('user 1 received join notification : ' + username);
+    user1.on('joined', function(user){
+      console.info('user 1 received join notification : ' + user.username);
     });
-    user2.on('joined', function(username){
-      console.info('user 2 received join notification : ' + username);
+    user2.on('joined', function(user){
+      console.info('user 2 received join notification : ' + user.username);
     });
 
     //custom event -- left
-    user1.on('left', function(username){
-      console.info('user 1 received left notification : ' + username);
+    user1.on('left', function(user){
+      console.info('user 1 received left notification : ' + user.username);
     });
-    user2.on('left', function(username){
-      console.info('user 2 received left notification : ' + username);
+    user2.on('left', function(user){
+      console.info('user 2 received left notification : ' + user.username);
     });
 
     //fire the test!
@@ -69,8 +69,8 @@ http.listen(3000, function(){
         console.error('Error while creating a room : ' + err);
       }
     ).then(
-      function(username){
-        console.log(username + ' joined a room. Current room size');
+      function(user){
+        console.log(user.username + ' joined a room. Current room size');
 
         //user 1 joins AGAIN
         return user1.join(roomName);
@@ -78,8 +78,8 @@ http.listen(3000, function(){
         console.error('Error while user1 joining a room : ' + err);
       }
     ).then(
-      function(username){
-        console.log(username + ' tried to rejoin a room. Current room size');
+      function(user){
+        console.log(user.username + ' tried to rejoin a room. Current room size');
 
         //failed ...
 
@@ -90,8 +90,8 @@ http.listen(3000, function(){
         return user2.join(roomName);
       }
     ).then(
-      function(username){
-        console.log(username + ' joined a room. Current room size');
+      function(user){
+        console.log(user.username + ' joined a room. Current room size');
 
         //user1 asking for users list
         return user1.users(roomName);

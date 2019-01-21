@@ -11,6 +11,7 @@ app.controller('SoodaCtrl', function ($scope) {
   const protocol = host === 'localhost' ? 'http://' : 'https://';
 
   $scope.username = 'anon' + Math.floor(Math.random() * 100000);
+  $scope.type  = 'anon';
   $scope.messages = [];
 
   $scope.parseMsg = function(msg){
@@ -34,6 +35,18 @@ app.controller('SoodaCtrl', function ($scope) {
     $scope.$apply();
   });
 
+  me.on('joined', function(user){
+    $scope.users.push(user);
+    $scope.$apply();
+  });
+
+  me.on('left', function(user){
+    $scope.users = $scope.users.filter(
+      e => JSON.stringify(e) !== JSON.stringify(user)
+    );
+  });
+
+
   $scope.socket.on('connect', function(){
     //ensures the login process doesn't kick off before socket is connected.
     me.join(roomName).then(
@@ -49,6 +62,8 @@ app.controller('SoodaCtrl', function ($scope) {
         me.users(roomName).then(function(users){
           $scope.users = users;
           $scope.$apply();
+        }, function(err){
+          console.error(err);
         });
       }, function(err){
         console.error(err);

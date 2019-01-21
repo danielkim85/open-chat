@@ -43,13 +43,13 @@
 								</div>
 							</div>
 							<div ng-repeat="user in users track by $index"
-									 ng-hide="username === user"
+									 ng-hide="username === user.username && type === user.type"
 									 class="item">
 								<div class="right floated content">
-									<div class="ui label">anon</div>
+									<div class="ui label">{{ user.type }}</div>
 								</div>
 								<div class="middle aligned content">
-									<a class="header">{{ user }}</a>
+									<a class="header">{{ user.username }}</a>
 								</div>
 							</div>
 						</div>
@@ -61,7 +61,7 @@
 								 ng-repeat="msg in messages track by $index">
 							<div ng-class="msg.isMe ? 'my-msg' : ''">
 								<a ng-hide="msg.isMe"
-									 class="ui blue basic label">{{ msg.username }}</a>
+									 class="ui blue basic label">{{ msg.user.username }}</a>
 								<div ng-class="msg.isMe ? 'ui blue right pointing label' : 'ui left pointing label'">
 									<p>{{ msg.message }}</p>
 								</div>

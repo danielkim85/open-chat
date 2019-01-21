@@ -78,7 +78,7 @@ sooda.init(server, appName);
 
 const io = require('socket.io-client');
 const socket = io.connect('http://localhost:3000');
-const admin = new SoodaUser(socket,appName,'admin');
+const admin = new SoodaUser(socket,appName,'admin','admin');
 
 socket.once('connected', function(){
     //create a room
