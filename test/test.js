@@ -40,6 +40,22 @@ http.listen(3000, function(){
       console.info('user 2 received message : ' + msg);
     });
 
+    //custom event -- joined
+    user1.on('joined', function(username){
+      console.info('user 1 received join notification : ' + username);
+    });
+    user2.on('joined', function(username){
+      console.info('user 2 received join notification : ' + username);
+    });
+
+    //custom event -- left
+    user1.on('left', function(username){
+      console.info('user 1 received left notification : ' + username);
+    });
+    user2.on('left', function(username){
+      console.info('user 2 received left notification : ' + username);
+    });
+
     //fire the test!
 
     //create a room
@@ -53,8 +69,8 @@ http.listen(3000, function(){
         console.error('Error while creating a room : ' + err);
       }
     ).then(
-      function(roomSize){
-        console.log('user1 joined a room. Current room size : ' + roomSize);
+      function(username){
+        console.log(username + ' joined a room. Current room size');
 
         //user 1 joins AGAIN
         return user1.join(roomName);
@@ -62,8 +78,8 @@ http.listen(3000, function(){
         console.error('Error while user1 joining a room : ' + err);
       }
     ).then(
-      function(roomSize){
-        console.log('user1 tried to rejoin a room. Current room size : ' + roomSize);
+      function(username){
+        console.log(username + ' tried to rejoin a room. Current room size');
 
         //failed ...
 
@@ -74,8 +90,8 @@ http.listen(3000, function(){
         return user2.join(roomName);
       }
     ).then(
-      function(roomSize){
-        console.log('user2 joined a room. Current room size : ' + roomSize);
+      function(username){
+        console.log(username + ' joined a room. Current room size');
 
         //user1 asking for users list
         return user1.users(roomName);
@@ -128,7 +144,7 @@ http.listen(3000, function(){
         return user2.leave(roomName);
       }
     ).then(
-      function(roomName){
+      function(){
         console.info('User 2 left ' + roomName);
         //user1 purges
         return user1.delete(roomName);
@@ -144,6 +160,7 @@ http.listen(3000, function(){
         process.exit(0);
       }, function(err){
         console.error('Error while deleting a room : ' + err);
+        process.exit(0);
       }
     );
   });
