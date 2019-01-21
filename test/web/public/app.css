@@ -1,0 +1,44 @@
+body{
+	margin-top:1em;
+}
+
+.header-container{
+	text-align: center;
+}
+
+.column{
+	padding:0 !important;
+	margin:0 !important;
+}
+
+.chat-screen{
+	height:600px;
+}
+
+.users{
+	height:600px;
+	margin:1em;
+}
+
+.message-container{
+	margin-bottom:1em;
+}
+
+.my-msg{
+	width:100%;
+}
+
+.my-msg .label{
+	float:right;
+	margin-bottom:1em;
+}
+
+.action{
+	padding:0 !important;
+	border:0 !important;
+}
+
+.users .list .content{
+	height:25px;
+	line-height:25px !important;
+}

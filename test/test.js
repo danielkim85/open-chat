@@ -84,6 +84,7 @@ http.listen(3000, function(){
       }
     ).then(
       function(users){
+        console.log('current users');
         console.log(users);
 
         //user2 deletes a room, shouldn't be allowed.
@@ -103,10 +104,10 @@ http.listen(3000, function(){
     ).then(
       function(){
         //user2 deletes a room, shouldn't be allowed.
-        return user2.messages(roomName,'hello, room2!');
+        return user2.messages(roomName);
       }, function(err){
         console.error('Error while user2 sending message : ' + err);
-        return user2.messages(roomName,'hello, room2!');
+        return user2.messages(roomName);
       }
     ).then(
       function(messages){
@@ -121,9 +122,18 @@ http.listen(3000, function(){
       function(roomName){
         console.error('User 2 deleted a room created by user 1. This should not happen');
         //user1 purges
-        return user1.delete(roomName);
+        return user2.leave(roomName);
       }, function(err){
         console.error('Error while user 2 deleting a room : ' + err);
+        return user2.leave(roomName);
+      }
+    ).then(
+      function(roomName){
+        console.info('User 2 left ' + roomName);
+        //user1 purges
+        return user1.delete(roomName);
+      }, function(err){
+        console.error('User 2 failed to leave the room: ' + err);
         return user1.delete(roomName);
       }
     ).then(
