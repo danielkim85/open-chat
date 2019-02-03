@@ -1,3 +1,4 @@
+<!--suppress HtmlUnknownTarget, HtmlUnknownTarget, HtmlUnknownTarget -->
 <html lang="en">
 	<head>
 		<title>Welcome to sooda.io</title>
@@ -16,13 +17,13 @@
 			crossorigin="anonymous"></script>
 
 		<!-- socket.io -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.slim.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.slim.js"></script>
 
 		<!-- semantic ui -->
 		<script src="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
 
 		<!-- angular JS -->
-		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
 
 		<script src="user.js"></script>
 	</head>
@@ -64,6 +65,7 @@
 									</a>
 								</div>
 							</div>
+
 							<div ng-repeat="user in users track by $index"
 									 ng-hide="username === user.username && type === user.type"
 									 class="item">
@@ -74,21 +76,24 @@
 									<a class="header">{{ user.username.split(':')[1] }}</a>
 								</div>
 							</div>
-						</div>
+
+            </div>
 					</div>
 				</div>
 				<div class="nine wide column">
 					<div class="chat-screen ui left aligned attached segment inverted">
+
 						<div class="message-container"
 								 ng-repeat="msg in messages track by $index">
 							<div ng-class="msg.isMe ? 'my-msg' : ''">
 								<a ng-hide="msg.isMe"
 									 class="ui blue basic label">{{ msg.user.username.split(':')[1] }}</a>
-								<div ng-class="msg.isMe ? 'ui blue right pointing label' : 'ui left pointing label'">
+								<div ng-class="msg.isMe ? 'ui blue label' : 'ui left pointing label'">
 									<p>{{ msg.message }}</p>
 								</div>
 							</div>
 						</div>
+
 					</div>
 					<div class="ui attached segment fluid action input">
 						<input type="text"

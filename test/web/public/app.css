@@ -36,11 +36,11 @@ body{
 
 .my-msg{
 	width:100%;
+  display:inline-block;
 }
 
 .my-msg .label{
 	float:right;
-	margin-bottom:1em;
 }
 
 .action{

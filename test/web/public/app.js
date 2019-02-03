@@ -13,11 +13,12 @@ app.controller('SoodaCtrl', function ($scope) {
     const id = profile.getId();
     $scope.type = 'google';
 
+    /*
     console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
     console.log('Name: ' + profile.getName());
     console.log('Image URL: ' + profile.getImageUrl());
     console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-
+    */
 
     signedIn = true;
     $('.sign-out').show();
@@ -37,6 +38,7 @@ app.controller('SoodaCtrl', function ($scope) {
     $scope.username = id + ':' + name + ':' + $scope.type;
     me.join(roomName).then(function(){
       $scope.loadUsers(roomName);
+      $scope.loadMessages(roomName);
     });
   }
   window.onSignIn = onSignIn;
@@ -50,7 +52,6 @@ app.controller('SoodaCtrl', function ($scope) {
   const port =  host === 'localhost' ? '3000' : '443';
   const protocol = host === 'localhost' ? 'http://' : 'https://';
 
-  //TODO if authed, the logic below should look differently
   const username = 'anon' + Math.floor(Math.random() * 100000);
   $scope.type  = 'anon';
   $scope.username = username + ':' + username + ':' + $scope.type;
@@ -58,8 +59,7 @@ app.controller('SoodaCtrl', function ($scope) {
 
   $scope.parseMsg = function(msg){
     msg = JSON.parse(msg);
-    //TODO isMe working properly?
-    msg.isMe = msg.username === $scope.username;
+    msg.isMe = msg.user.username === $scope.username;
     return msg;
   };
 
@@ -112,7 +112,6 @@ app.controller('SoodaCtrl', function ($scope) {
 
   $scope.loadUsers = function(roomName){
     me.users(roomName).then(function(users){
-      console.info(users);
       $scope.users = users;
       $scope.$apply();
     }, function(err){
