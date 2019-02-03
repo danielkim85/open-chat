@@ -19,11 +19,11 @@ http.listen(3000, function(){
 
   //create a test user
   console.log('creating a test user john1');
-  const user1 = new SoodaUser(socket,appName,'john1');
+  const user1 = new SoodaUser(socket,appName,'john1', 'john1');
 
   //create a test user
   console.log('creating a test user john2');
-  const user2 = new SoodaUser(socket,appName,'john2');
+  const user2 = new SoodaUser(socket,appName,'john2', 'john2');
 
   //connect and begin testing
   socket.once('connected', function(){
@@ -64,9 +64,18 @@ http.listen(3000, function(){
         console.log('Created a room : ' + roomName);
 
         //user 1 joins
-        return user1.join(roomName);
+        return user1.rooms();
       }, function(err){
         console.error('Error while creating a room : ' + err);
+      }
+    ).then(
+      function(rooms){
+        console.log('Rooms :');
+        console.log(rooms);
+        //user 1 joins
+        return user1.join(roomName);
+      }, function(err){
+        console.error('Error while listing the room : ' + err);
       }
     ).then(
       function(user){

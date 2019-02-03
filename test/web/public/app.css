@@ -1,5 +1,6 @@
 body{
 	margin-top:1em;
+	height:auto;
 }
 
 .header-container{
@@ -15,9 +16,18 @@ body{
 	height:600px;
 }
 
+.users-container{
+	border-left:0 !important;
+}
+
 .users{
 	height:600px;
 	margin:1em;
+	border-left:0 !important;
+}
+
+.rooms{
+	height:640px;
 }
 
 .message-container{
@@ -41,4 +51,20 @@ body{
 .users .list .content{
 	height:25px;
 	line-height:25px !important;
+}
+
+.g-signin2 {
+	width:120px;
+	margin:0 auto;
+}
+
+.sign-in, .sign-out{
+	position:absolute;
+	top:0;
+	right:0;
+}
+
+.create-room-button{
+	position:absolute;
+	top:-28px;
 }
