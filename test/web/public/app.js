@@ -44,7 +44,7 @@ app.controller('SoodaCtrl', function ($scope) {
   window.onSignIn = onSignIn;
 
   const appName = 'soodaWeb';
-  let roomName = 'Lobby';
+  let roomName = defaultRoomname = 'Lobby';
   let authMode = undefined;
 
   //socket
@@ -79,6 +79,9 @@ app.controller('SoodaCtrl', function ($scope) {
   });
 
   me.on('joined', function(user){
+    if($scope.users.some(function(el){ return el.username === user.username})){
+      return;
+    }
     $scope.users.push(user);
     $scope.$apply();
   });
@@ -89,6 +92,16 @@ app.controller('SoodaCtrl', function ($scope) {
     );
     $scope.$apply();
   });
+
+  me.on('deleted', function(){
+    $scope.switchRoom(defaultRoomname);
+  });
+
+  $scope.switchRoom = function(roomName){
+    $scope.loadRooms(function(){
+      $scope.join(roomName);
+    });
+  };
 
   $scope.loadMessages = function(roomName){
     me.messages(roomName).then(function(messages){
@@ -101,10 +114,22 @@ app.controller('SoodaCtrl', function ($scope) {
     });
   };
 
-  $scope.loadRooms = function(){
+  $scope.loadRoom = function(){
+    me.room(roomName).then(function(room){
+      $scope.roomAdmin = JSON.parse(room.owner).username;
+      $scope.$apply();
+    }, function(err){
+      console.error(err);
+    });
+  };
+
+  $scope.loadRooms = function(callback){
     me.rooms().then(function(rooms){
       $scope.rooms = rooms;
       $scope.$apply();
+      if(callback){
+        callback();
+      }
     }, function(err){
       console.error(err);
     });
@@ -133,6 +158,9 @@ app.controller('SoodaCtrl', function ($scope) {
         //grab other rooms
         $scope.loadRooms();
 
+        //grab room info
+        $scope.loadRoom(roomName);
+
       }, function(err){
         console.error(err);
       }
@@ -160,13 +188,11 @@ app.controller('SoodaCtrl', function ($scope) {
     $('.rooms .item').removeClass('active');
     $('.rooms .item[room-name="' + joinRoomName + '"]').addClass('active');
     me.leave(roomName);
-    me.join(joinRoomName).then(function(){
-      roomName = joinRoomName;
-      $scope.loadUsers(roomName);
-      $scope.loadMessages(roomName);
-    }, function(e){
-      console.error(e);
-    });
+    me.join(joinRoomName);
+    roomName = joinRoomName;
+    $scope.loadUsers(roomName);
+    $scope.loadMessages(roomName);
+    $scope.loadRoom(roomName);
   };
 
   $scope.createRoom = function(){
@@ -175,15 +201,31 @@ app.controller('SoodaCtrl', function ($scope) {
 
   $scope.doCreateRoom = function(createRoomName){
     me.create(createRoomName).then(function(){
+      $scope.createRoomError = undefined;
+      $scope.createRoomName = '';
       $('.create-room').modal('hide');
-      $scope.loadRooms();
+      $scope.loadRooms(function(){
+        $scope.switchRoom(createRoomName);
+      });
     }, function(err){
       console.error(err);
+      $scope.createRoomError = err;
+      $scope.$apply();
     });
   };
 
   $scope.cancelCreateRoom = function(){
+    $scope.createRoomError = undefined;
+    $scope.createRoomName = '';
     $('.create-room').modal('hide');
+  };
+
+  $scope.deleteRoom = function(){
+    me.delete(roomName).then(function(){
+      $scope.switchRoom(defaultRoomname);
+    }, function(err){
+      console.err(err);
+    });
   };
 
   $scope.useAnon = function(){

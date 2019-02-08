@@ -36,10 +36,15 @@
 					Welcome to Sooda.io!
 				</div>
 				<p>Start chatting with other people!</p>
+
+				<button class="mini ui red button delete-room-button"
+								ng-show="roomAdmin === username"
+								ng-click="deleteRoom();">Delete this room</button>
 			</div>
 			<div class="ui padded grid">
-				<div class="three wide column">
+				<div class="three wide ui segment column rooms-container">
 					<div class="ui vertical fluid tabular menu rooms">
+
 						<button class="mini ui blue button create-room-button"
 										ng-click="createRoom();">Create a room</button>
 
@@ -70,7 +75,7 @@
 									 ng-hide="username === user.username && type === user.type"
 									 class="item">
 								<div class="right floated content">
-									<div class="ui label">{{ user.type }}</div>
+									<div class="ui label">{{ user.isAdmin ? 'admin' : user.type }}</div>
 								</div>
 								<div class="middle aligned content">
 									<a class="header">{{ user.username.split(':')[1] }}</a>
@@ -80,7 +85,7 @@
             </div>
 					</div>
 				</div>
-				<div class="nine wide column">
+				<div class="nine wide ui segment column">
 					<div class="chat-screen ui left aligned attached segment inverted">
 
 						<div class="message-container"
@@ -95,7 +100,7 @@
 						</div>
 
 					</div>
-					<div class="ui attached segment fluid action input">
+					<div class="ui attached fluid action input">
 						<input type="text"
 									 ng-model="message"
 									 placeholder="Type something ...">
@@ -129,6 +134,10 @@
 		<div class="ui mini modal create-room">
 			<div class="header">Create a room</div>
 			<div class="content">
+				<div ng-show="createRoomError"
+						 class="ui pointing below red basic label">
+					{{createRoomError}}
+				</div>
 				<div class="ui fluid input focus">
 					<input type="text"
 								 ng-model="createRoomName"

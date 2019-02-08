@@ -1,10 +1,19 @@
 body{
 	margin-top:1em;
 	height:auto;
+	background-color:#9bbbd4;
 }
 
 .header-container{
 	text-align: center;
+}
+
+.rooms-container{
+  border-right:0 !important;
+}
+
+.users-container{
+  border-left:0 !important;
 }
 
 .column{
@@ -16,18 +25,9 @@ body{
 	height:600px;
 }
 
-.users-container{
-	border-left:0 !important;
-}
-
 .users{
-	height:600px;
 	margin:1em;
 	border-left:0 !important;
-}
-
-.rooms{
-	height:640px;
 }
 
 .message-container{
@@ -45,7 +45,6 @@ body{
 
 .action{
 	padding:0 !important;
-	border:0 !important;
 }
 
 .users .list .content{
@@ -67,4 +66,12 @@ body{
 .create-room-button{
 	position:absolute;
 	top:-28px;
+}
+
+.delete-room-button{
+  position: absolute;
+  right: 0;
+  float: right;
+  top: 52px;
+  margin: 0 !important;
 }
